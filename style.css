@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.main_div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.music_container {
+  width: 38rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 2.5rem;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 1.2rem 3.2rem rgba(0, 0, 0, 0.4);
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.music_container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 2rem 4rem rgba(0, 255, 240, 0.1);
+}
+
+#title {
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+  margin-top: 2rem;
+  text-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.5);
+}
+
+#artist {
+  font-size: 1.8rem;
+  color: #d1d1d1;
+  text-transform: capitalize;
+  margin-bottom: 3rem;
+  font-weight: 300;
+  letter-spacing: 0.1rem;
+}
+
+.img_container {
+  width: 26rem;
+  height: 26rem;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1rem 2.5rem rgba(0, 255, 255, 0.3);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.music_controls {
+  width: 28rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 4rem auto 0;
+  align-items: center;
+}
+
+.music_controls .fa-solid {
+  color: #f0f0f0;
+  font-size: 2.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0.5rem 1rem rgba(0, 255, 240, 0.3));
+}
+
+.music_controls .fa-solid:hover {
+  color: #00ffe7;
+  transform: scale(1.2);
+}
+
+.music_controls .main_button {
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00ffe7, #00b3b3);
+  color: #000;
+  font-size: 2.2rem;
+  box-shadow: 0 0.8rem 2rem rgba(0, 255, 240, 0.3), inset 0 0 0.4rem rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+.music_controls .main_button:hover {
+  background: #ffffff;
+  color: #00b3b3;
+  box-shadow: 0 0 2rem #00ffe7, inset 0 0 0.8rem rgba(0, 0, 0, 0.1);
+}
+
+.anime {
+  animation: rotatePlayer 5s linear infinite;
+}
+
+@keyframes rotatePlayer {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Progress Bar */
+.progress_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+  gap: 1rem;
+  font-size: 1.3rem;
+  color: #ccc;
+}
+
+.progress_bar_bg {
+  flex: 1;
+  height: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background: #00ffe7;
+  transition: width 0.3s ease;
+}
+
+/* Volume Slider */
+#volume_slider {
+  width: 60%;
+  height: 6px;
+  appearance: none;
+  -webkit-appearance: none; /* Safari, Chrome */
+  background: #00ffe7;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Webkit-specific thumb style */
+#volume_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #00ffe7;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+/* Firefox-specific thumb style */
+#volume_slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #00ffe7;
+  cursor: pointer;
+}
+
+
+/* Playlist dropdown */
+.playlist_container {
+  margin-top: 2.5rem;
+}
+
+#playlist {
+  padding: 0.8rem 1rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid #00ffe7;
+  outline: none;
+}

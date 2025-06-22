@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Music Player</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="main_div">
+    <div class="music_container">
+      <h2 id="title">Ishq Risk</h2>
+      <h3 id="artist">Rahat Fateh Ali Khan</h3>
+
+      <div class="img_container">
+        <img src="images/ishq-risk.jpg" alt="Album Cover" />
+      </div>
+
+      <audio id="audio" src="music/ishq-risk.mp4"></audio>
+
+      <div class="progress_container">
+        <span id="current_time">0:00</span>
+        <div class="progress_bar_bg" onclick="seek(event)">
+          <div class="progress" id="progress"></div>
+        </div>
+        <span id="duration">0:00</span>
+      </div>
+
+      <div class="volume_container">
+        <i class="fa-solid fa-volume-high"></i>
+        <input type="range" id="volume_slider" min="0" max="100" value="70" />
+      </div>
+
+      <div class="music_controls">
+        <i class="fa-solid fa-backward" id="prev" title="Previous"></i>
+        <i class="fa-solid fa-play main_button" id="play" title="Play"></i>
+        <i class="fa-solid fa-forward" id="next" title="Next"></i>
+      </div>
+
+      <div class="playlist_container">
+        <select id="playlist"></select>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const music = document.getElementById("audio");
+    const img = document.querySelector("img");
+    const play = document.getElementById("play");
+    const artist = document.getElementById("artist");
+    const title = document.getElementById("title");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const progress = document.getElementById("progress");
+    const currentTimeEl = document.getElementById("current_time");
+    const durationEl = document.getElementById("duration");
+    const volumeSlider = document.getElementById("volume_slider");
+    const playlistSelect = document.getElementById("playlist");
+
+    const songs = [
+      { name: "ishq-risk", title: "Ishq Risk", artist: "Rahat Fateh Ali Khan" },
+      { name: "Bol na halka halka", title: "Bol Na Halka Halka", artist: "Rahat Fateh Ali Khan" },
+      { name: "ajj din chadheya", title: "Ajj Din Chadheya", artist: "Rahat Fateh Ali Khan" },
+    ];
+
+    let isPlaying = false;
+    let songIndex = 0;
+
+    function loadSong(song) {
+      title.textContent = song.title;
+      artist.textContent = song.artist;
+      music.src = `music/${song.name}.mp4`;
+      img.src = `images/${song.name}.jpg`;
+    }
+
+    function playMusic() {
+      isPlaying = true;
+      music.play();
+      play.classList.replace("fa-play", "fa-pause");
+      img.classList.add("anime");
+    }
+
+    function pauseMusic() {
+      isPlaying = false;
+      music.pause();
+      play.classList.replace("fa-pause", "fa-play");
+      img.classList.remove("anime");
+    }
+
+    play.addEventListener("click", () => (isPlaying ? pauseMusic() : playMusic()));
+
+    function nextSong() {
+      songIndex = (songIndex + 1) % songs.length;
+      loadSong(songs[songIndex]);
+      playMusic();
+    }
+
+    function prevSong() {
+      songIndex = (songIndex - 1 + songs.length) % songs.length;
+      loadSong(songs[songIndex]);
+      playMusic();
+    }
+
+    function updateProgress() {
+      const { currentTime, duration } = music;
+      const percent = (currentTime / duration) * 100;
+      progress.style.width = `${percent}%`;
+
+      let curMin = Math.floor(currentTime / 60);
+      let curSec = Math.floor(currentTime % 60).toString().padStart(2, "0");
+      currentTimeEl.textContent = `${curMin}:${curSec}`;
+
+      if (duration) {
+        let durMin = Math.floor(duration / 60);
+        let durSec = Math.floor(duration % 60).toString().padStart(2, "0");
+        durationEl.textContent = `${durMin}:${durSec}`;
+      }
+    }
+
+    function seek(e) {
+      const width = e.currentTarget.clientWidth;
+      const clickX = e.offsetX;
+      const duration = music.duration;
+      music.currentTime = (clickX / width) * duration;
+    }
+
+    volumeSlider.addEventListener("input", () => {
+      music.volume = volumeSlider.value / 100;
+    });
+
+    music.addEventListener("timeupdate", updateProgress);
+    next.addEventListener("click", nextSong);
+    prev.addEventListener("click", prevSong);
+
+    // Populate playlist dropdown
+    songs.forEach((song, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.text = song.title;
+      playlistSelect.appendChild(option);
+    });
+
+    playlistSelect.addEventListener("change", (e) => {
+      songIndex = parseInt(e.target.value);
+      loadSong(songs[songIndex]);
+      playMusic();
+    });
+
+    loadSong(songs[songIndex]);
+  </script>
+</body>
+</html>
